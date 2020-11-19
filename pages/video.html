@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, minimal-ui" />
+<title>VIDEO</title>
+<!-- CSS //-->
+<link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
+
+</head>
+<body>
+<!-- plyr.js //-->
+<!--video preload="none" id="player"></video-->
+
+<!-- api.media.js //-->
+<div id="js_video"></div>
+
+
+
+<style>
+.youtube {
+	height: 200px;
+	overflow: hidden;
+	position: relative;
+}
+.bottom {
+	position: absolute;
+	bottom: 0;
+	height: 20px;
+	border: 1px;
+	background-color: rgba(255, 255, 255, .8);
+}
+iframe {
+	
+}
+</style>
+<div class="youtube">
+	<!--
+	<div style="height: 200px; overflow: hidden;">
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/JkxYjFqyC88?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</div>
+	-->
+	<!--
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/JkxYjFqyC88?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	-->
+	<div class="bottom">
+		test
+	</div>
+</div>
+
+
+<!-- JS //-->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+<!--script type="text/javascript" src="//makestory.net/js/plyr.ysm.js"></script-->
+<!--script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script-->
+<script type="text/javascript" src="/test/js/api.player.js"></script>
+<script type="text/javascript">
+/*
+var player = $('#player');
+player.prop({'autoplay': true, 'controls': true, 'crossorigin': true});
+(function () {
+	var video = document.querySelector('#player');
+
+	if (Hls.isSupported()) {
+		var hls = new Hls();
+		//hls.loadSource('blob:http://display.cjmall.com/38c7edd4-c569-4fad-b371-bc9f526c67a4');
+		hls.loadSource('http://cjoshoppingplus.live.cdn.visioncloud.co.kr/cjosplus/live1/playlist.m3u8');
+		hls.attachMedia(video);
+		hls.on(Hls.Events.MANIFEST_PARSED, function() {
+			video.play();
+		});
+	}
+
+	//plyr.setup(video);
+})();
+*/
+
+
+api.player.setup({
+	'target': $('#js_video').get(0),
+	'source': 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4'
+	//'source': 'https://video.cjmall.net/public/confirm/assets/201908/20190827/A000650/308b294ee469f04d677d3ac826847a33a0d3aa67.mp4?px-time=1567578578&px-hash=02e7117bc8d4da627663efd6596a8726'
+});
+</script>
+</body>
+</html>

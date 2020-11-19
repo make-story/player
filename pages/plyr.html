@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>plyr</title>
+<!-- CSS //-->
+<link rel="stylesheet" type="text/css" href="//makestory.net/css/reset.css">
+<!--link rel="stylesheet" href="https://cdn.plyr.io/2.0.11/plyr.css"-->
+<style>
+.plyr input[type=range]:focus, .plyr:focus {
+    outline: 0;
+}
+.plyr .plyr__video-embed iframe, .plyr__tooltip {
+    pointer-events: none;
+}
+@keyframes plyr-progress {
+    to {
+    background-position: 25px 0;
+}
+}.plyr {
+    position: relative;
+    max-width: 100%;
+    min-width: 200px;
+    font-family: Avenir, 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+    direction: ltr;
+}
+.plyr, .plyr *, .plyr ::after, .plyr ::before {
+    box-sizing: border-box;
+}
+.plyr a, .plyr button, .plyr input, .plyr label {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+.plyr audio, .plyr video {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border-radius: inherit;
+}
+.plyr input[type=range] {
+    display: block;
+    height: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    background: 0 0;
+}
+.plyr input[type=range]::-webkit-slider-runnable-track {
+    height: 8px;
+    background: 0 0;
+    border: 0;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.plyr input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -4px;
+    position: relative;
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 100%;
+    transition: background .2s ease, border .2s ease, transform .2s ease;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+}
+.plyr input[type=range]::-moz-range-track {
+    height: 8px;
+    background: 0 0;
+    border: 0;
+    border-radius: 4px;
+    -moz-user-select: none;
+    user-select: none;
+}
+.plyr input[type=range]::-moz-range-thumb {
+    position: relative;
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 100%;
+    transition: background .2s ease, border .2s ease, transform .2s ease;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+}
+.plyr input[type=range]::-ms-track {
+    height: 8px;
+    background: 0 0;
+    border: 0;
+    color: transparent;
+}
+.plyr input[type=range]::-ms-fill-upper {
+    height: 8px;
+    background: 0 0;
+    border: 0;
+    border-radius: 4px;
+    -ms-user-select: none;
+    user-select: none;
+}
+.plyr input[type=range]::-ms-fill-lower {
+    height: 8px;
+    border: 0;
+    border-radius: 4px;
+    -ms-user-select: none;
+    user-select: none;
+    background: #3498db;
+}
+.plyr input[type=range]::-ms-thumb {
+    position: relative;
+    height: 16px;
+    width: 16px;
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 100%;
+    transition: background .2s ease, border .2s ease, transform .2s ease;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+    margin-top: 0;
+}
+.plyr input[type=range]::-ms-tooltip {
+    display: none;
+}
+.plyr input[type=range]::-moz-focus-outer {
+    border: 0;
+}
+.plyr input[type=range].tab-focus:focus {
+    outline-offset: 3px;
+}
+.plyr input[type=range]:active::-webkit-slider-thumb {
+    background: #3498db;
+    border-color: #fff;
+    transform: scale(1.25);
+}
+.plyr input[type=range]:active::-moz-range-thumb {
+    background: #3498db;
+    border-color: #fff;
+    transform: scale(1.25);
+}
+.plyr input[type=range]:active::-ms-thumb {
+    background: #3498db;
+    border-color: #fff;
+    transform: scale(1.25);
+}
+.plyr--video input[type=range].tab-focus:focus {
+    outline: rgba(255, 255, 255, .5) dotted 1px;
+}
+.plyr--audio input[type=range].tab-focus:focus {
+    outline: rgba(86, 93, 100, .5) dotted 1px;
+}
+.plyr__sr-only {
+    clip: rect(1px, 1px, 1px, 1px);
+    overflow: hidden;
+    position: absolute!important;
+    padding: 0!important;
+    border: 0!important;
+    height: 1px!important;
+    width: 1px!important;
+}
+.plyr__video-wrapper {
+    position: relative;
+    background: #000;
+    border-radius: inherit;
+}
+.plyr__video-embed {
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    z-index: 0;
+}
+.plyr__video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.plyr__video-embed>div {
+    position: relative;
+    padding-bottom: 200%;
+    transform: translateY(-35.95%);
+}
+.plyr video::-webkit-media-text-track-container {
+    display: none;
+}
+.plyr__captions {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    transform: translateY(-40px);
+    transition: transform .3s ease;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 400;
+}
+.plyr__captions span {
+    border-radius: 2px;
+    padding: 3px 10px;
+    background: rgba(0, 0, 0, .7);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    line-height: 150%}
+.plyr__captions span:empty {
+    display: none;
+}
+@media (min-width:768px) {
+    .plyr__captions {
+    font-size: 24px;
+}
+}.plyr--captions-active .plyr__captions {
+    display: block;
+}
+.plyr--hide-controls .plyr__captions {
+    transform: translateY(-15px);
+}
+@media (min-width:1024px) {
+    .plyr--fullscreen-active .plyr__captions {
+    font-size: 32px;
+}
+}.plyr ::-webkit-media-controls {
+    display: none;
+}
+.plyr__controls {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    line-height: 1;
+    text-align: center;
+}
+.plyr__controls .plyr__progress, .plyr__controls .plyr__time, .plyr__controls>button {
+    margin-left: 5px;
+}
+.plyr__controls .plyr__progress:first-child, .plyr__controls .plyr__time:first-child, .plyr__controls>button:first-child {
+    margin-left: 0;
+}
+.plyr__controls .plyr__volume {
+    margin-left: 5px;
+}
+.plyr__controls [data-plyr=pause] {
+    margin-left: 0;
+}
+.plyr__controls button {
+    position: relative;
+    display: inline-block;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    overflow: visible;
+    vertical-align: middle;
+    padding: 7px;
+    border: 0;
+    background: 0 0;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background .3s ease, color .3s ease, opacity .3s ease;
+    color: inherit;
+}
+.plyr__controls button svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+    fill: currentColor;
+}
+.plyr__controls button:focus {
+    outline: 0;
+}
+.plyr__controls .icon--captions-on, .plyr__controls .icon--exit-fullscreen, .plyr__controls .icon--muted {
+    display: none;
+}
+@media (min-width:480px) {
+    .plyr__controls .plyr__progress, .plyr__controls .plyr__time, .plyr__controls>button {
+    margin-left: 10px;
+}
+}.plyr--hide-controls .plyr__controls {
+    opacity: 0;
+    pointer-events: none;
+}
+.plyr--video .plyr__controls {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 50px 10px 10px;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    color: #fff;
+    transition: opacity .3s ease;
+}
+.plyr--video .plyr__controls button.tab-focus:focus, .plyr--video .plyr__controls button:hover {
+    background: #3498db;
+    color: #fff;
+}
+.plyr--audio .plyr__controls {
+    padding: 10px;
+    border-radius: inherit;
+    background: #fff;
+    border: 1px solid #dbe3e8;
+    color: #565D64;
+}
+.plyr--audio .plyr__controls button.tab-focus:focus, .plyr--audio .plyr__controls button:hover, .plyr__play-large {
+    background: #3498db;
+    color: #fff;
+}
+.plyr__play-large {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border: 4px solid currentColor;
+    border-radius: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .15);
+    transition: all .3s ease;
+}
+.plyr__play-large svg {
+    position: relative;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    display: block;
+    fill: currentColor;
+}
+.plyr__play-large:focus {
+    outline: rgba(255, 255, 255, .5) dotted 1px;
+}
+.plyr .plyr__play-large {
+    display: inline-block;
+}
+.plyr--audio .plyr__play-large, .plyr--playing .plyr__controls [data-plyr=play], .plyr__controls [data-plyr=pause] {
+    display: none;
+}
+.plyr--playing .plyr__play-large {
+    opacity: 0;
+    visibility: hidden;
+}
+.plyr--playing .plyr__controls [data-plyr=pause] {
+    display: inline-block;
+}
+.plyr--captions-active .plyr__controls .icon--captions-on, .plyr--fullscreen-active .icon--exit-fullscreen, .plyr--muted .plyr__controls .icon--muted {
+    display: block;
+}
+.plyr [data-plyr=captions], .plyr [data-plyr=fullscreen], .plyr--captions-active .plyr__controls .icon--captions-on+svg, .plyr--fullscreen-active .icon--exit-fullscreen+svg, .plyr--muted .plyr__controls .icon--muted+svg {
+    display: none;
+}
+.plyr--captions-enabled [data-plyr=captions], .plyr--fullscreen-enabled [data-plyr=fullscreen] {
+    display: inline-block;
+}
+.plyr__tooltip {
+    position: absolute;
+    z-index: 2;
+    bottom: 100%;
+    margin-bottom: 10px;
+    padding: 5px 7.5px;
+    opacity: 0;
+    background: rgba(0, 0, 0, .7);
+    border-radius: 3px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.3;
+    transform: translate(-50%, 10px) scale(.8);
+    transform-origin: 50% 100%;
+    transition: transform .2s .1s ease, opacity .2s .1s ease;
+}
+.plyr__tooltip::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -4px;
+    border-right: 4px solid transparent;
+    border-top: 4px solid rgba(0, 0, 0, .7);
+    border-left: 4px solid transparent;
+    z-index: 2;
+}
+.plyr button.tab-focus:focus .plyr__tooltip, .plyr button:hover .plyr__tooltip, .plyr__tooltip--visible {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+}
+.plyr button:hover .plyr__tooltip {
+    z-index: 3;
+}
+.plyr__controls button:first-child .plyr__tooltip {
+    left: 0;
+    transform: translate(0, 10px) scale(.8);
+    transform-origin: 0 100%}
+.plyr__controls button:first-child .plyr__tooltip::before {
+    left: 16px;
+}
+.plyr__controls button:last-child .plyr__tooltip {
+    right: 0;
+    transform: translate(0, 10px) scale(.8);
+    transform-origin: 100% 100%}
+.plyr__controls button:last-child .plyr__tooltip::before {
+    left: auto;
+    right: 16px;
+    transform: translateX(50%);
+}
+.plyr__controls button:first-child .plyr__tooltip--visible, .plyr__controls button:first-child.tab-focus:focus .plyr__tooltip, .plyr__controls button:first-child:hover .plyr__tooltip, .plyr__controls button:last-child .plyr__tooltip--visible, .plyr__controls button:last-child.tab-focus:focus .plyr__tooltip, .plyr__controls button:last-child:hover .plyr__tooltip {
+    transform: translate(0, 0) scale(1);
+}
+.plyr__progress {
+    position: relative;
+    display: none;
+    -ms-flex: 1;
+    flex: 1;
+}
+.plyr__progress input[type=range] {
+    position: relative;
+    z-index: 2;
+}
+.plyr__progress input[type=range]::-webkit-slider-runnable-track {
+    background: 0 0;
+}
+.plyr__progress input[type=range]::-moz-range-track {
+    background: 0 0;
+}
+.plyr__progress input[type=range]::-ms-fill-upper {
+    background: 0 0;
+}
+.plyr__progress .plyr__tooltip {
+    left: 0;
+}
+.plyr .plyr__progress {
+    display: inline-block;
+}
+.plyr__progress--buffer, .plyr__progress--played, .plyr__volume--display {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 8px;
+    margin: -4px 0 0;
+    padding: 0;
+    vertical-align: top;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 100px;
+}
+.plyr__progress--buffer::-webkit-progress-bar, .plyr__progress--played::-webkit-progress-bar, .plyr__volume--display::-webkit-progress-bar {
+    background: 0 0;
+}
+.plyr__progress--buffer::-webkit-progress-value, .plyr__progress--played::-webkit-progress-value, .plyr__volume--display::-webkit-progress-value {
+    background: currentColor;
+    border-radius: 100px;
+    min-width: 8px;
+}
+.plyr__progress--buffer::-moz-progress-bar, .plyr__progress--played::-moz-progress-bar, .plyr__volume--display::-moz-progress-bar {
+    background: currentColor;
+    border-radius: 100px;
+    min-width: 8px;
+}
+.plyr__progress--buffer::-ms-fill, .plyr__progress--played::-ms-fill, .plyr__volume--display::-ms-fill {
+    border-radius: 100px;
+}
+.plyr__progress--played, .plyr__volume--display {
+    z-index: 1;
+    color: #3498db;
+    background: 0 0;
+    transition: none;
+}
+.plyr__progress--played::-webkit-progress-value, .plyr__volume--display::-webkit-progress-value {
+    min-width: 8px;
+    max-width: 99%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    transition: none;
+}
+.plyr__progress--played::-moz-progress-bar, .plyr__volume--display::-moz-progress-bar {
+    min-width: 8px;
+    max-width: 99%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    transition: none;
+}
+.plyr__progress--played::-ms-fill, .plyr__volume--display::-ms-fill {
+    display: none;
+}
+.plyr__progress--buffer::-webkit-progress-value {
+    transition: width .2s ease;
+}
+.plyr__progress--buffer::-moz-progress-bar {
+    transition: width .2s ease;
+}
+.plyr__progress--buffer::-ms-fill {
+    transition: width .2s ease;
+}
+.plyr--video .plyr__progress--buffer, .plyr--video .plyr__volume--display {
+    background: rgba(255, 255, 255, .25);
+}
+.plyr--video .plyr__progress--buffer {
+    color: rgba(255, 255, 255, .25);
+}
+.plyr--audio .plyr__progress--buffer, .plyr--audio .plyr__volume--display {
+    background: rgba(198, 214, 219, .66);
+}
+.plyr--audio .plyr__progress--buffer {
+    color: rgba(198, 214, 219, .66);
+}
+.plyr--loading .plyr__progress--buffer {
+    animation: plyr-progress 1s linear infinite;
+    background-size: 25px 25px;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(-45deg, rgba(0, 0, 0, .15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .15) 50%, rgba(0, 0, 0, .15) 75%, transparent 75%, transparent);
+    color: transparent;
+}
+.plyr--video.plyr--loading .plyr__progress--buffer {
+    background-color: rgba(255, 255, 255, .25);
+}
+.plyr--audio.plyr--loading .plyr__progress--buffer {
+    background-color: rgba(198, 214, 219, .66);
+}
+.plyr__time {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+}
+.plyr__time+.plyr__time {
+    display: none;
+}
+@media (min-width:768px) {
+    .plyr__time+.plyr__time {
+    display: inline-block;
+}
+}.plyr__time+.plyr__time::before {
+    content: '\2044';
+    margin-right: 10px;
+}
+.plyr__volume {
+    display: none;
+}
+.plyr .plyr__volume {
+    -ms-flex: 1;
+    flex: 1;
+    position: relative;
+}
+.plyr .plyr__volume input[type=range] {
+    position: relative;
+    z-index: 2;
+}
+@media (min-width:480px) {
+    .plyr .plyr__volume {
+    display: block;
+    max-width: 60px;
+}
+}@media (min-width:768px) {
+    .plyr .plyr__volume {
+    max-width: 100px;
+}
+}.plyr--is-ios .plyr__volume, .plyr--is-ios [data-plyr=mute] {
+    display: none!important;
+}
+.plyr--fullscreen-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10000000;
+    background: #000;
+    border-radius: 0!important;
+}
+.plyr--fullscreen-active video {
+    height: 100%}
+.plyr--fullscreen-active .plyr__video-wrapper {
+    height: 100%;
+    width: 100%}
+.plyr--fullscreen-active .plyr__video-embed {
+    overflow: visible;
+}
+.plyr--fullscreen-active .plyr__controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.plyr--fullscreen-active.plyr--vimeo .plyr__video-wrapper {
+    height: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+</style>
+</head>
+<body>
+<!-- 기본 //-->
+<!-- video preload="none" id="player" poster="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.jpg?v1" controls crossorigin>
+	<source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.mp4" type="video/mp4">
+	<source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.webm" type="video/webm">
+
+	<track kind="captions" label="English" srclang="en" src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
+
+	<a href="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.mp4" download>Download</a>
+</video -->
+
+<!-- 외부 (유튜브) //-->
+<!-- data-video-id 값이 embedId 값으로 사용 //-->
+<div data-type="youtube" data-video-id="bTqVqk7FSmY"></div>
+
+<!-- JS //-->
+<!--script src="http://code.jquery.com/jquery-1.12.0.min.js"></script-->
+<!--script src="//makestory.net/test/api.dom.js"></script-->
+<script src="//makestory.net/test/js/plyr.ysm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+/*var video = document.getElementById('player');
+var hls;
+if(Hls.isSupported()) {
+	hls = new Hls();
+	hls.loadSource('https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8');
+	hls.attachMedia(video);
+	hls.on(Hls.Events.MANIFEST_PARSED,function() {
+		video.play();
+	});
+}*/
+
+plyr.setup({
+	'debug': true
+});
+</script>
+
+<!-- jQuery test //-->
+<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+<!-- 주의: src링크에 enablejsapi=1 을 꼭 넣어주어야 한다. -->
+<!--iframe id="gangnamStyleIframe" width="560" height="315" src="https://www.youtube.com/embed/9bZkp7q19f0?rel=0&enablejsapi=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe-->
+<div id="gangnamStyleIframe"></div>
+<button type="button" onclick="playYoutube();">Play</button>
+<button type="button" onclick="pauseYoutube();">Pause</button>
+<button type="button" onclick="stopYoutube();">Stop</button>
+<button type="button" onclick="changeVideoAndStart();">ChangeVideo And Start</button>
+<button type="button" onclick="changeVideoObjectAndStart();">ChangeVideoObject And Start</button>
+<button type="button" onclick="changeVideoListAndStart();">ChangeVideoList And Start</button>
+<button type="button" onclick="changeVideoListObjectAndStart();">ChangeVideoListObject(Video IDs) And Start</button>
+<button type="button" onclick="changeVideoListObjectAndStart2();">ChangeVideoListObject(playlist ID) And Start</button>
+<script>
+// https://developers.google.com/youtube/iframe_api_reference
+// https://developers.google.com/youtube/player_parameters?playerVersion=HTML5&hl=ko
+// iframe 태그의 src에 enablejsapi 값을 꼭 넣어주어야 한다. 
+/**
+ * Youtube API 로드
+ */
+var tag = document.createElement('script');
+tag.src = "http://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+/**
+ * onYouTubeIframeAPIReady 함수는 필수로 구현해야 한다.
+ * 플레이어 API에 대한 JavaScript 다운로드 완료 시 API가 이 함수 호출한다.
+ * 페이지 로드 시 표시할 플레이어 개체를 만들어야 한다.
+ */
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('gangnamStyleIframe', {
+        height: '315',            // <iframe> 태그 지정시 필요없음
+        width: '560',             // <iframe> 태그 지정시 필요없음
+        videoId: '9bZkp7q19f0',   // <iframe> 태그 지정시 필요없음
+        playerVars: {             // <iframe> 태그 지정시 필요없음
+            controls: '2'
+        },
+        events: {
+            'onReady': onPlayerReady,               // 플레이어 로드가 완료되고 API 호출을 받을 준비가 될 때마다 실행
+            'onStateChange': onPlayerStateChange    // 플레이어의 상태가 변경될 때마다 실행
+        }
+    });
+}
+function onPlayerReady(event) {
+    console.log('onPlayerReady 실행');
+}
+var playerState;
+function onPlayerStateChange(event) {
+    playerState = event.data == YT.PlayerState.ENDED ? '종료됨' :
+            event.data == YT.PlayerState.PLAYING ? '재생 중' :
+            event.data == YT.PlayerState.PAUSED ? '일시중지 됨' :
+            event.data == YT.PlayerState.BUFFERING ? '버퍼링 중' :
+            event.data == YT.PlayerState.CUED ? '재생준비 완료됨' :
+            event.data == -1 ? '시작되지 않음' : '예외';
+
+    console.log('onPlayerStateChange 실행: ' + playerState);
+
+    // 재생여부를 통계로 쌓는다.
+    collectPlayCount(event.data);
+}
+
+function playYoutube() {
+    // 플레이어 자동실행 (주의: 모바일에서는 자동실행되지 않음)
+    player.playVideo();
+}
+function pauseYoutube() {
+    player.pauseVideo();
+}
+function stopYoutube() {
+    player.seekTo(0, true);     // 영상의 시간을 0초로 이동시킨다.
+    player.stopVideo();
+}
+var played = false;
+function collectPlayCount(data) {
+    if (data == YT.PlayerState.PLAYING && played == false) {
+        // todo statistics
+        played = true;
+        console.log('statistics');
+    }
+}
+
+/**
+ * loadVideoById 함수는 지정한 동영상을 로드하고 재생한다.
+ * 인수구문: loadVideoByUrl(mediaContentUrl:String, startSeconds:Number, suggestedQuality:String):Void
+ * 개체구문: loadVideoByUrl({mediaContentUrl:String, startSeconds:Number, endSeconds:Number, suggestedQuality:String}):Void
+ * loadVideoById 함수 뿐만 아니라 다른 대체적인 함수들도 개체구문이 기능이 더 많다.
+ */
+function changeVideoAndStart() {
+    player.loadVideoById("iCkYw3cRwLo", 0, "large");
+}
+function changeVideoObjectAndStart() {
+    // 0초부터 10초까지 재생을 시킨다.
+    player.loadVideoById({
+        'videoId': 'bHQqvYy5KYo',
+        'startSeconds': 0,
+        'endSeconds': 10
+    });
+}
+
+/**
+ * loadPlaylist 함수는 지정한 재생목록을 로드하고 재생한다.
+ * 인수구문: loadPlaylist(playlist:String|Array, index:Number, startSeconds:Number, suggestedQuality:String):Void
+ * 개체구문: loadPlaylist({list:String, listType:String, index:Number, startSeconds:Number, suggestedQuality:String}):Void
+ * [주의: 개체구문의 loadPlaylist 함수에서의 재생목록ID 와 동영상ID 의 사용방법이 다르다.]
+ */
+function changeVideoListAndStart() {
+    player.loadPlaylist(['wcLNteez3c4', 'LOsNP2D2kSA', 'rX372ZwXOEM'], 0, 0, 'large');
+}
+function changeVideoListObjectAndStart() {
+    player.loadPlaylist({
+        'playlist': ['9HPiBJBCOq8', 'Mp4D0oHEnjc', '8y1D8KGtHfQ', 'jEEF_50sBrI'],
+        'listType': 'playlist',
+        'index': 0,
+        'startSeconds': 0,
+        'suggestedQuality': 'small'
+    });
+}
+function changeVideoListObjectAndStart2() {
+    player.loadPlaylist({
+        'list': 'UUPW9TMt0le6orPKdDwLR93w',
+        'listType': 'playlist',
+        'index': 0,
+        'startSeconds': 0,
+        'suggestedQuality': 'small'
+    });
+}
+</script>
+</body>
+</html>
